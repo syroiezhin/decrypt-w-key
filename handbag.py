@@ -7,7 +7,8 @@ def fac(n): return 1 if n == 0 else fac(n-1) * n
 def filter(fill,ASKEY,cipher): 
     if ( f := ''.join(fill[-1:]) ) in cipher and cipher[f] != 0: cipher[f]=cipher[f]-1
     cipher = ''.join([ k*v for k,v in cipher.items() ])
-    return cipher[ int( int(float(ASKEY))*(D := len(cipher))/fac(D) )%D ]
+    D = len(cipher)
+    return cipher[int( terminal(terminal(terminal(ASKEY,'*',D),'/',fac(D)),'%',D) )]
 
 def token(ASKEY,cipher): 
     fill=[] 
@@ -23,7 +24,7 @@ def assort(cipher):
         print( '#', i, ' ', abc, "|", cipher, ' @ ', ASKEY )
         ASKEY = check(cipher,ASKEY,abc,i)
         abc = token(ASKEY,cipher)
-    return ASKEY
+    return int(float(ASKEY))
 
 def algorism(dec, sys):
     sign = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
@@ -65,10 +66,11 @@ def decoder(dct, SCKEY):
 if __name__ == "__main__":
 
     dct = prime()
-    enContent = 'HELLO WORLD LETS'
+    enContent = 'HOWDY DEAR GUEST' # LETS BE FRIENDS AND DO GOOD
     ASKEY = assort(enContent)
     SCKEY = scrambler(enContent, dct)
-    deContent = token(ASKEY,decoder(dct, SCKEY))
+    deContent = token( ASKEY, decoder(dct, SCKEY) )
+
     print( f'We get 🔑 ({algorism(sys=36, dec=SCKEY)}) by encrypting this data: <{enContent}>' )
-    print( f'We get 🔑 ({algorism(sys=36, dec=int(float(ASKEY)))}) which is needed for the correct character order of the received data!')
+    print( f'We get 🔑 ({algorism(sys=36, dec=ASKEY)}) which is needed for the correct character order of the received data!')
     print( f'Decrypting 🔑, we get the following data: <{deContent}>' )
